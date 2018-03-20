@@ -1,0 +1,8 @@
+version: "3"
+services:
+  busted:
+    image: "xurion/busted-runner"
+    working_dir: /app/tests
+    tty: true
+    volumes:
+      - ./:/app
