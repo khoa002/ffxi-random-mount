@@ -3,21 +3,25 @@ _addon.author  = 'Xurion of Bismarck'
 _addon.version = '2.0.0'
 _addon.commands = {'rm'}
 
---res = require('resources')
---owned_kis = {}
---owned_mounts = {}
+resources = require('resources')
 
--- Returns all key items under the "mount" category
---function get_mount_kis_from_resources()
---  local mount_kis = {}
---  for _, ki in pairs(res.key_items) do
---    if ki.category == "Mounts" then
---      table.insert(mount_kis, ki.en)
---    end
---  end
+RandomMount = {
 
---  return mount_kis
---end
+  owned_kis = {},
+
+  owned_mounts = {},
+
+  get_mount_kis_from_resources = function ()
+    local mount_kis = {}
+      for _, ki in pairs(resources.key_items) do
+        if ki.category == "Mounts" then
+          table.insert(mount_kis, ki.en)
+        end
+      end
+
+      return mount_kis
+  end
+}
 
 -- Returns all mounts owned by the player
 --function get_owned_mounts()
@@ -81,3 +85,5 @@ _addon.commands = {'rm'}
 --    windower.send_command('input /mount ' .. mounts[mount_index].en)
 --  end
 --end)
+
+return RandomMount
