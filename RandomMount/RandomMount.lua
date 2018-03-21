@@ -45,12 +45,12 @@ RandomMount = {
 --end
 
 -- Check on each tick of game time to see if there are KIs loaded or new ones obtained
---windower.register_event('time change', function()
---  local ki_check = windower.ffxi.get_key_items()
---  if table.getn(ki_check) > table.getn(owned_kis) or table.getn(owned_kis) == 0 then --player loading or new KI obtained
---    owned_kis = windower.ffxi.get_key_items()
---  end
---end)
+windower.register_event('time change', function()
+  local ki_check = windower.ffxi.get_key_items()
+  if #ki_check > #RandomMount.owned_kis then
+    RandomMount.owned_kis = ki_check
+  end
+end)
 
 -- Generate random numbers based on the OS time
 --math.randomseed(os.time())
