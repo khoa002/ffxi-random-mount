@@ -45,7 +45,7 @@ RandomMount = {
 --end
 
 -- Check on each tick of game time to see if there are KIs loaded or new ones obtained
-windower.register_event('time change', function()
+windower.register_event('time change', function ()
   local ki_check = windower.ffxi.get_key_items()
   if #ki_check > #RandomMount.owned_kis then
     RandomMount.owned_kis = ki_check
@@ -53,20 +53,20 @@ windower.register_event('time change', function()
 end)
 
 -- Generate random numbers based on the OS time
---math.randomseed(os.time())
+math.randomseed(os.time())
 
 -- When player uses //rm
---windower.register_event('addon command', function()
---  local player = windower.ffxi.get_player()
+windower.register_event('addon command', function ()
+  local player = windower.ffxi.get_player()
 --  local was_mounted = false
 
   -- If the player is mounted, dismount now
---  for _, buff in pairs(player.buffs) do
---    if buff == 252 then --mounted buff
---      windower.send_command('input /dismount')
+  for _, buff in pairs(player.buffs) do
+    if buff == 252 then --mounted buff
+      windower.send_command('input /dismount')
 --      was_mounted = true
---    end
---  end
+    end
+  end
 
   -- If the player was not mounted, attempt to select a random mount
 --  if was_mounted == false then
@@ -84,6 +84,6 @@ end)
 --    local mount_index = math.ceil(math.random() * table.getn(mounts))
 --    windower.send_command('input /mount ' .. mounts[mount_index].en)
 --  end
---end)
+end)
 
 return RandomMount

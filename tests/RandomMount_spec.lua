@@ -4,19 +4,27 @@ describe('RandomMount', function ()
 
     local events
     local owned_key_items
+    local player
 
     _G.windower = {
+        send_command = function () end,
         register_event = function (event, func)
             events[event] = func
         end,
         ffxi = {
             get_key_items = function ()
                 return owned_key_items
+            end,
+            get_player = function ()
+                return player
             end
         }
     }
 
     before_each(function ()
+        player = {
+            buffs = {}
+        }
         package.loaded['resources'] = nil
         _G._addon = {}
         events = {}
@@ -141,6 +149,23 @@ describe('RandomMount', function ()
 
     it('sets the random number seed to the operating system time', function ()
 
-        math.randomseed(os.time())
+        local os_time = 1337
+        local randomseed_spy = spy.on(math, 'randomseed')
+        stub(os, 'time').by_default.returns(os_time)
+
+        get_script()
+
+        assert.spy(randomseed_spy).was.called_with(os_time)
+    end)
+
+    it('instructs the character to dismount if currently mounted when on addon command event', function ()
+
+        get_script()
+        table.insert(player.buffs, 252)
+        local send_command_spy = spy.on(windower, 'send_command')
+
+        events['addon command']()
+
+        assert.spy(send_command_spy).was.called_with('input /dismount')
     end)
 end)
